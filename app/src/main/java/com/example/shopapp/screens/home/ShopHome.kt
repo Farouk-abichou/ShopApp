@@ -8,6 +8,6 @@ import com.example.shopapp.screens.home.components.ShopHomePage
 fun ShopHome(viewModel: ShopHomeViewModel = hiltViewModel()){
     val product = viewModel.data.value.data?.toMutableList() //Important!
 
-    ShopHomePage()
+    ShopHomePage(viewModel)
 }
 

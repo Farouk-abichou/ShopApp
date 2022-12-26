@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ShopAppTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = AppColors.mBackgroundColor
+                Surface(modifier = Modifier.fillMaxSize(), color = AppColors.mBlack
                 ) {
                     ShopHome()
                 }
