@@ -1,8 +1,6 @@
 package com.example.shopapp.screens.home.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -31,7 +29,9 @@ fun ProductBox(
     details:String,
     price:Float,
 ){
-    Box(modifier = Modifier.padding(15.dp)
+    Box(modifier = Modifier
+        .padding(15.dp)
+
         .clickable {
             navController.navigate(Screens.Product.withArgs(id))
         }) {
@@ -42,7 +42,9 @@ fun ProductBox(
             .padding(20.dp)
         )
         {
-            CanImage(Modifier.fillMaxWidth(), image = image, width = 200.dp, height = 200.dp)
+            Box(modifier = Modifier){
+                CanImage(Modifier.fillMaxWidth(), image = image, width = 200.dp, height = 200.dp)
+            }
             Text(text = title, fontWeight = FontWeight.Bold)
             Text(text = details)
             Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
