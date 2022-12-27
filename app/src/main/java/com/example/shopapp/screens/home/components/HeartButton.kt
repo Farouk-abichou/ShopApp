@@ -1,8 +1,10 @@
 package com.example.shopapp.screens.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
@@ -22,8 +24,8 @@ fun CircleButton(
     ){
     Box(
         modifier = Modifier
-            .shadow(10.dp, RoundedCornerShape(10.dp))
-            .clip(RoundedCornerShape(10.dp))
+            .shadow(1.dp, CircleShape)
+            .border(1.dp,Color.Black,CircleShape)
             .background(backgroundColor)
             .clickable { onClicked }
     ){
