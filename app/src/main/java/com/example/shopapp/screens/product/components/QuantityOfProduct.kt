@@ -16,36 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.shopapp.R
 
 @Preview(showBackground = true)
 @Composable
 fun QuantityOfProduct(){
-    val quantity: MutableState<Int> = remember {
-        mutableStateOf(1)
-    }
-    Row(modifier = Modifier
-        .shadow(8.dp, RoundedCornerShape(20.dp))
-        .clip(RoundedCornerShape(20.dp))
-        .background(Color.White)
-        .padding(horizontal = 20.dp, vertical = 5.dp)) {
-        Text(text = " - ", modifier = Modifier.clickable {
-            if (quantity.value>1){
-                quantity.value--
-            }
-        })
 
-        Text(text = "${quantity.value}", modifier = Modifier.padding(horizontal = 20.dp))
-
-        Text(text = " + ", modifier = Modifier.clickable {
-            if (quantity.value<20){
-                quantity.value++
-            }
-        })
-
-
-    }
 
 
 }

@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 object AppColors {
     val mLightGray = Color(0xffb4b9cd)
-    val mBackgroundColor = Color(0xFFebeaf0)
+    val mBackgroundColor = Color(0xFFEAE9EF)
     val mBlack = Color(0xFF1D1D1D)
     val mOffWhite = Color(0xffeceeef)
     val mLightPurple = Color(0xff545a75)

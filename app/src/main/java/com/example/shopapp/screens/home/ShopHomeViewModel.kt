@@ -20,6 +20,8 @@ class ShopHomeViewModel @Inject constructor(private val repository: ProductRepos
             Boolean, Exception>> = mutableStateOf(
         DataOrException(null,true,Exception("")) )
 
+    val product =data.value.data?.toMutableList()
+
     init {
         getAllProducts()
     }
