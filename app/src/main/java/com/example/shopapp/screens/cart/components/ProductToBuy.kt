@@ -41,12 +41,10 @@ fun ProductToBuy(
         .fillMaxWidth()
         .background(Color.Transparent)
         .padding(
-            horizontal = 20.dp,
-            vertical = 10.dp
+            bottom = 20.dp
         )) {
         Box(
             modifier = Modifier
-                .padding(3.dp)
                 .shadow(4.dp, RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color.White)
@@ -75,15 +73,17 @@ fun ProductToBuy(
                     fontWeight = FontWeight.ExtraBold
                 )
                 Row(modifier = Modifier) {
-                    CircleButton(source= R.drawable.ic_baseline_add_24, Color.Transparent ){
-                        if (numberOfProduct.value>1){
-                            numberOfProduct.value++
-                        }
-                    }
-                    Text(text = "${numberOfProduct.value}", modifier = Modifier.padding(horizontal = 5.dp))
-                    CircleButton(source= R.drawable.ic_baseline_horizontal_rule_24, Color.White ){
+                    CircleButton(source= R.drawable.ic_baseline_horizontal_rule_24, Color.Transparent ){
                         if (numberOfProduct.value<20){
                             numberOfProduct.value--
+                        }
+                    }
+
+                    Text(text = "${numberOfProduct.value}", modifier = Modifier.padding(horizontal = 5.dp))
+
+                    CircleButton(source= R.drawable.ic_baseline_add_24, Color.White ){
+                        if (numberOfProduct.value>1){
+                            numberOfProduct.value++
                         }
                     }
                 }

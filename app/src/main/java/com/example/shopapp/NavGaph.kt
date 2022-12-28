@@ -10,7 +10,6 @@ import androidx.navigation.navArgument
 import com.example.shopapp.screens.cart.Cart
 import com.example.shopapp.screens.home.ShopHome
 import com.example.shopapp.screens.product.Product
-import com.example.shopapp.screens.product.components.ProductPage
 
 @Composable
 fun SetUpNavGraph(
@@ -40,9 +39,15 @@ fun SetUpNavGraph(
         }
         composable(
             route = Screens.Cart.route
+//            arguments = listOf(
+//                navArgument("Id"){
+//                    type= NavType.StringType
+//                    nullable=true
+//                },
+//            )
         ){
-
             Cart(navController)
+
         }
 
 

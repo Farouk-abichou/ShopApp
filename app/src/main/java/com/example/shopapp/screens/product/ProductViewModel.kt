@@ -18,11 +18,10 @@ import javax.inject.Inject
 class ProductViewModel @Inject constructor(private val repository: ProductRepository,savedStateHandle: SavedStateHandle)
     :ViewModel() {
 
-    val PrductById:MutableState<ProductItem> =
-        mutableStateOf(
-            ProductItem(0,"text",0f,"text","text", Rating(0f,0))
-        )
+    var PrductById= mutableStateOf( repository.productById)
 
+
+//    val CartItems =  mutableStateOf(ArrayList<ProductItem>())
 
     private var CurrentproductId:Int=0
     init {
@@ -30,16 +29,14 @@ class ProductViewModel @Inject constructor(private val repository: ProductReposi
         savedStateHandle.get<String>("Id")?.let { productId ->
             if (productId.toInt() != -1) {
                 viewModelScope.launch{
-                    repository.getProductById(productId.toInt()).also { product ->
-                        CurrentproductId= product.id
-                        PrductById.value = repository.getProductById(CurrentproductId-2)
-                        Log.d("tag1","$CurrentproductId")
+                    repository.getProductById2(productId.toInt()).also { product ->
+                        CurrentproductId= productId.toInt()
+                        PrductById.value = repository.getProductById2(id = CurrentproductId)
+                        Log.d("tagg","${PrductById.value}")
+
                     }
                 }
             }
         }
-
-
     }
-
 }

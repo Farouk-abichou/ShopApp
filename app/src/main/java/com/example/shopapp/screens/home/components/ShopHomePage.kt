@@ -1,6 +1,5 @@
 package com.example.shopapp.screens.home.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,91 +29,97 @@ import com.example.shopapp.screens.home.ShopHomeViewModel
 import com.example.shopapp.util.AppColors
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShopHomePage(
     navController: NavController,
     viewModel: ShopHomeViewModel){
-    val product =viewModel.data.value.data?.toMutableList() //Important!
-        Box(modifier = Modifier.fillMaxSize()){
-            Column {
+    val product =viewModel.productData.value.data?.toMutableList() //Important!
+    Box(modifier = Modifier.fillMaxSize()){
+        Column {
 
-                Row(
-                    Modifier
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 0.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SearchBar(
+                    hint = "Search...",
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 20.dp, end = 0.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(16.dp)
                 ) {
-                    SearchBar()
-                    Box(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .padding(3.dp)
-                            .shadow(5.dp, RoundedCornerShape(10.dp))
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color.White)
-                    )
-
+//                    viewModel.searchPokemonList(it)
                 }
+                Box(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .padding(3.dp)
+                        .shadow(5.dp, RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White)
+                )
+
+            }
 
 //            ProductToBuy()
 
 
-                Text(
-                    text = "Found ${viewModel.data.value.data?.size} Result",
-                    modifier = Modifier.padding(start = 30.dp, bottom = 10.dp),
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 30.sp
-                )
+            Text(
+                text = "Found ${viewModel.productData.value.data?.size} Result",
+                modifier = Modifier.padding(start = 30.dp, bottom = 10.dp),
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 30.sp
+            )
 
 
-                Box(modifier = Modifier.padding(12.dp)) {
-                    if (viewModel.data.value.loading == true) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            CircularProgressIndicator(modifier = Modifier, color = AppColors.mDarkPurple)
-                        }
-
-                    } else {
-
-                        if (product != null) {
-                            LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
-                                viewModel.data.value.data?.let {
-                                    items(it.size) { i ->
-                                        val productIndex = remember {
-                                            mutableStateOf(i)
-                                        }
-
-                                        val productData = try {
-                                            product[productIndex.value]
-                                        } catch (ex: Exception) {
-                                            null
-                                        }
-
-                                        if (productData != null) {
-
-
-                                            ProductBox(
-                                                navController,
-                                                id = productData.id,
-                                                image = R.drawable.drink_can,
-                                                title = productData.title,
-                                                details = productData.category,
-                                                price = productData.price,
-                                            )
-                                        }
-                                    }
-                                }
-                            })
-                        }
+            Box(modifier = Modifier.padding(12.dp)) {
+                if (viewModel.productData.value.loading == true) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier, color = AppColors.mDarkPurple)
                     }
 
+                } else {
+
+                    if (product != null) {
+                        LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
+                            viewModel.productData.value.data?.let {
+                                items(it.size) { i ->
+                                    val productIndex = remember {
+                                        mutableStateOf(i)
+                                    }
+
+                                    val productData = try {
+                                        product[productIndex.value]
+                                    } catch (ex: Exception) {
+                                        null
+                                    }
+
+                                    if (productData != null) {
+
+
+                                        ProductBox(
+                                            navController,
+                                            id = productData.id,
+                                            image = R.drawable.drink_can,
+                                            title = productData.title,
+                                            details = productData.category,
+                                            price = productData.price,
+                                        )
+                                    }
+                                }
+                            }
+                        })
+                    }
                 }
 
             }
+
         }
+    }
 }
 
 
@@ -184,16 +189,16 @@ fun TopAppBar(
 fun SearchBar(
     modifier: Modifier = Modifier,
     hint: String = "",
-    onSearch: (String) -> Unit = {},
+    onSearch: (String) -> Unit = {}
 ) {
     var text by remember {
         mutableStateOf("")
     }
-    val isHintDisplayed by remember {
+    var isHintDisplayed by remember {
         mutableStateOf(hint != "")
     }
 
-    Box(modifier = modifier.padding(5.dp)) {
+    Box(modifier = modifier) {
         BasicTextField(
             value = text,
             onValueChange = {
@@ -204,10 +209,10 @@ fun SearchBar(
             singleLine = true,
             textStyle = TextStyle(color = Color.Black),
             modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .shadow(4.dp, RoundedCornerShape(15.dp))
-                .background(Color.White, RoundedCornerShape(15.dp))
-                .padding(horizontal = 20.dp, vertical = 13.dp)
+                .fillMaxWidth()
+                .shadow(5.dp, RoundedCornerShape(10.dp))
+                .background(Color.White, RoundedCornerShape(10.dp))
+                .padding(horizontal = 20.dp, vertical = 12.dp)
                 .onFocusChanged {
 //                    isHintDisplayed = it != FocusStateImpl.Active && text.isNotEmpty()
                 }
@@ -222,3 +227,4 @@ fun SearchBar(
         }
     }
 }
+

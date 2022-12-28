@@ -1,5 +1,6 @@
 package com.example.shopapp.screens.product.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,91 +19,90 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.shopapp.R
-import com.example.shopapp.component.BlackButton
+import com.example.shopapp.Screens
 import com.example.shopapp.screens.home.components.CanImage
 import com.example.shopapp.screens.product.ProductViewModel
 import com.example.shopapp.util.AppColors
 import kotlin.math.roundToInt
-import kotlin.random.Random.Default.nextFloat
+
 
 
 @Composable
-fun ProductPage(
+fun ProductContent(
     navController: NavController,
     viewModel: ProductViewModel
-) {
+){
     val product=viewModel.PrductById.value
-    Scaffold(
-
+    Box(
+        modifier = Modifier
+            .background(AppColors.mBackgroundColor)
+            .fillMaxWidth()
     ) {
-                Box(
-                    modifier = Modifier
-                        .background(AppColors.mBackgroundColor)
+        TopAppBar(
+            Modifier
+                .height(120.dp)
+                .padding(top = 20.dp),
+            backgroundColor = Color.Transparent,
+            elevation = 0.dp,
+        ) {
+            Column(modifier = Modifier) {
+                Row(
+                    Modifier
                         .fillMaxWidth()
-                ) {
-                    TopAppBar(
-                        Modifier
-                            .height(120.dp)
-                            .padding(top = 20.dp),
-                        backgroundColor = Color.Transparent,
-                        elevation = 0.dp,
-                    ) {
-                        Column(modifier = Modifier) {
-                            Row(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(20.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            )
-                            {
-                                Icon(painter = painterResource(R.drawable.ic_baseline_arrow_back_ios_24),
-                                    contentDescription = "Back",
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .clickable {
-                                            navController.popBackStack()
-                                        }
-                                )
-
-
-
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_baseline_cruelty_free_24),
-                                    contentDescription = "Cute Bunny",
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .clickable {
-//                            navController.popBackStack()
-                                        },
-                                )
+                        .padding(20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                )
+                {
+                    Icon(painter = painterResource(R.drawable.ic_baseline_arrow_back_ios_24),
+                        contentDescription = "Back",
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .clickable {
+                                navController.popBackStack()
+//                                Log.d("tag1","${viewModel.CartItems.value}")
                             }
-                        }
-                    }
-                    Column(verticalArrangement = Arrangement.Center,modifier = Modifier.fillMaxSize()) {
-                        CanImage(modifier = Modifier, image = R.drawable.drink_can, width = 400.dp, height =500.dp)
-                        Spacer(modifier = Modifier.height(100.dp))
-                    }
+                    )
 
-                    Column(verticalArrangement = Arrangement.Bottom,modifier = Modifier.fillMaxSize()) {
 
-                    BottomProductCard(modifier = Modifier.fillMaxSize(),
-                    productName = product.title,
-                    productDetails = product.category,
-                    productReview = product.rating.rate.toString(),
-                    productPrice = product.price)
-                    }
+
+                    Icon(
+                        painter = painterResource(R.drawable.ic_baseline_cruelty_free_24),
+                        contentDescription = "Cute Bunny",
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .clickable {
+//                            navController.popBackStack()
+                            },
+                    )
                 }
+            }
+        }
+        Column(verticalArrangement = Arrangement.Center,modifier = Modifier.fillMaxSize()) {
+            CanImage(modifier = Modifier, image = R.drawable.drink_can, width = 400.dp, height =500.dp)
+            Spacer(modifier = Modifier.height(100.dp))
+        }
+
+        Column(verticalArrangement = Arrangement.Bottom,modifier = Modifier.fillMaxSize()) {
+
+            BottomProductCard(navController,modifier = Modifier.fillMaxSize(),
+                productName = product[0].title,
+                productDetails = product[0].category,
+                productReview = product[0].rating.rate.toString(),
+                productPrice = product[0].price
+            )
+        }
     }
 }
 
 
-
 @Composable
 fun BottomProductCard(
+    navController:NavController,
     modifier: Modifier,
     productName:String,
     productDetails:String,
@@ -191,7 +191,7 @@ fun BottomProductCard(
 
 
                }
-               BlackButton(text = "Cart")
+               CardButton(navController, text = "Cart", horiantalPadding = 10.dp, verticallPadding = 10.dp)
            }
            
        } 
@@ -201,4 +201,25 @@ fun BottomProductCard(
 @Composable
 fun StarsReview() {
     TODO("Not yet implemented")
+}
+
+@Composable
+fun CardButton(
+    navController:NavController,
+    horiantalPadding: Dp,
+    verticallPadding: Dp,
+    text:String,
+    cornerSize: Dp =22.dp
+){
+    Button(onClick = {
+        navController.navigate(Screens.Cart.route)
+    },
+        modifier = Modifier,
+        shape = RoundedCornerShape(cornerSize),
+        colors = ButtonDefaults.buttonColors(Color.Black),
+    ){
+        Text(text = text,Modifier.padding(horiantalPadding,verticallPadding), color = Color.White, fontSize = 18.sp, fontFamily = FontFamily( Font(
+            R.font.bergentext_bold)))
+    }
+
 }

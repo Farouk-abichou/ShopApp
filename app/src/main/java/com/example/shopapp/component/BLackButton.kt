@@ -17,6 +17,9 @@ import com.example.shopapp.R
 
 @Composable
 fun BlackButton(
+    modifier: Modifier,
+    horiantalPadding:Dp,
+    verticallPadding:Dp,
     text:String,
     cornerSize: Dp =22.dp
 ){
@@ -27,8 +30,8 @@ fun BlackButton(
         shape = RoundedCornerShape(cornerSize),
         colors = ButtonDefaults.buttonColors(Color.Black),
     ){
-        Text(text = text,Modifier.padding(10.dp), color = Color.White, fontSize = 18.sp, fontFamily = FontFamily( Font(
-            R.font.bergentext_bold)))
+        Text(text = text,Modifier.padding(horiantalPadding,verticallPadding), color = Color.White, fontSize = 18.sp, fontFamily = FontFamily( Font(
+            R.font.bergentext_regular)))
     }
 
 }
