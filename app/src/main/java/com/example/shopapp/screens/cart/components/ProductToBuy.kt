@@ -27,17 +27,15 @@ import androidx.compose.ui.unit.sp
 import com.example.shopapp.R
 import com.example.shopapp.screens.cart.CartViewModel
 import com.example.shopapp.screens.home.components.CanImage
-import com.example.shopapp.screens.home.components.CircleButton
-import com.example.shopapp.screens.product.ProductViewModel
 import kotlin.math.roundToInt
 
 
 @Composable
 fun ProductToBuy(
     viewModel: CartViewModel,
-    title:String="Facial Cleanser",
-    details:String="Size 7.60 fil oz /225ml",
-    Price:Double=19.98,
+    title:String,
+    details:String,
+    Price:Double,
 ){
 
     val quantity: MutableState<Int> = remember {

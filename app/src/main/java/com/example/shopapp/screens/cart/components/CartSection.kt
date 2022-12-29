@@ -21,8 +21,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.shopapp.R
 import com.example.shopapp.component.CostumeButton
 import com.example.shopapp.screens.cart.CartViewModel
+import com.example.shopapp.screens.home.components.ProductBox
 import com.example.shopapp.util.AppColors
 import kotlin.math.roundToInt
 
@@ -57,12 +59,25 @@ fun CartSection(
 
 @Composable
 fun CartProducts(viewModel: CartViewModel) {
-//    LazyColumn(content = {
-//        items(count = 2){item ->
-//        }
-//    })
-    ProductToBuy(viewModel)
-    ProductToBuy(viewModel)
+    val productToBuy = viewModel.getCartItems()?.toMutableList() //Important!
+    LazyColumn(content = {
+        viewModel.getCartItems()?.let {
+            if (productToBuy != null) {
+                items(productToBuy.size) { i ->
+                    val productIndex = remember { mutableStateOf(i) }
+
+                    val productData = try {
+                        productToBuy.get(productIndex.value)
+                    } catch (ex: Exception) { null }
+
+                    if (productData != null) {
+                        ProductToBuy(viewModel =viewModel, title = productData.id.toString(),
+                            details =productData.products.toString(), Price = productData.userId.toDouble() )
+                    }
+                }
+            }
+        }
+    })
 
 }
 

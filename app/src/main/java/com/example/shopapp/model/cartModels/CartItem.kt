@@ -1,14 +1,9 @@
 package com.example.shopapp.model.cartModels
 
-
 data class CartItem(
-    val id:Int,
-    val user:Int,
+    val __v: Int,
     val date: String,
-    val products:CartProduct
-)
-
-data class CartProduct(
-    val productId:Int,
-    val quantity:Int,
+    val id: Int,
+    val products: List<Product>,
+    val userId: Int
 )
