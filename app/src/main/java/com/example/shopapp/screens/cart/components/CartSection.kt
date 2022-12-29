@@ -58,9 +58,13 @@ fun CartSection(
 }
 
 @Composable
-fun CartProducts(viewModel: CartViewModel) {
+fun CartProducts(viewModel: CartViewModel,navController:NavController) {
     val productToBuy = viewModel.getCartItems()?.toMutableList() //Important!
-    LazyColumn(content = {
+
+
+
+
+    LazyColumn(modifier = Modifier.height(300.dp), content = {
         viewModel.getCartItems()?.let {
             if (productToBuy != null) {
                 items(productToBuy.size) { i ->
@@ -71,13 +75,14 @@ fun CartProducts(viewModel: CartViewModel) {
                     } catch (ex: Exception) { null }
 
                     if (productData != null) {
-                        ProductToBuy(viewModel =viewModel, title = productData.id.toString(),
+                        ProductToBuy(viewModel =viewModel, title = productData.products[1].quantity.toString(),
                             details =productData.products.toString(), Price = productData.userId.toDouble() )
                     }
                 }
             }
         }
     })
+
 
 }
 

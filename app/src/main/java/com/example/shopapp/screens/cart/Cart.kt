@@ -31,7 +31,7 @@ fun Cart(navController: NavController,viewModel: CartViewModel = hiltViewModel()
     ) {
         TopAppBar(navController,modifier = Modifier)
         Spacer(modifier = Modifier.height(10.dp))
-        CartProducts(viewModel)
+        CartProducts(viewModel,navController)
         CartSection(navController,viewModel)
     }
 }
