@@ -2,7 +2,7 @@ package com.example.shopapp.screens.cart.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Divider
@@ -18,14 +18,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.shopapp.component.BlackButton
+import com.example.shopapp.component.CostumeButton
 import com.example.shopapp.screens.cart.CartViewModel
-import com.example.shopapp.screens.home.components.TopAppBar
 import com.example.shopapp.util.AppColors
+import kotlin.math.roundToInt
+
+
 
 
 @Composable
@@ -37,18 +38,17 @@ fun CartSection(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.background(AppColors.mBackgroundColor)
     ) {
-        TopAppBar(modifier = Modifier)
+
         Column(modifier = Modifier
             .background(Color.Transparent)
-            .padding(horizontal = 30.dp)){
-            CartProducts()
-            PromoCodeTextField()
+            ){
+            PromoCodeTextField(viewModel)
             Spacer(modifier = Modifier.height(20.dp))
 
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-                TotalBill()
+                TotalBill(viewModel,viewModel.subTotal.value,4.99,0.00)
                 Spacer(modifier = Modifier.height(20.dp))
-                BlackButton(modifier = Modifier, text = "Procced To Checkout", horiantalPadding = 40.dp, verticallPadding = 10.dp)
+                CostumeButton(color = Color.Black, modifier = Modifier, text = "Procced To Checkout", horiantalPadding = 40.dp, verticallPadding = 10.dp, onClickListner = {})
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -56,35 +56,38 @@ fun CartSection(
 }
 
 @Composable
-fun CartProducts(/*viewModel: CartViewModel*/) {
-
-    ProductToBuy()
-    ProductToBuy()
-    ProductToBuy()
-
-
-
+fun CartProducts(viewModel: CartViewModel) {
 //    LazyColumn(content = {
-//        viewModel.data.value.data?.let {
-//            items(it.size) { i ->
-//
-//            }
+//        items(count = 2){item ->
 //        }
 //    })
+    ProductToBuy(viewModel)
+    ProductToBuy(viewModel)
+
 }
 
 @Composable
-fun TotalBill() {
+fun TotalBill(
+    viewModel: CartViewModel,
+    subTotal: Double,
+    shipping:Double,
+    discount:Double,
+) {
 
-    BillItem()
-    BillItem()
-    BillItem()
+    val bogTotal: Double =((subTotal+shipping-discount) * 100.0).roundToInt() / 100.0
+
+    BillItem(billItemName = "Subtotal",viewModel.subTotal.value)
+    BillItem(billItemName = "Shipping",shipping)
+    if (viewModel.PromoCodeValidation.value){
+        BillItem(billItemName = "Discount",-discount)
+    }
+    BillItem(billItemName = "bog Total",bogTotal)
 }
-//@Preview(showBackground = true)
+
 @Composable
 fun BillItem(
-    billItemName:String="Subtotal",
-    subTotal:Double =45.99
+    billItemName:String,
+    subTotal:Double
 ) {
     Column() {
         Row(horizontalArrangement = Arrangement.SpaceBetween,
@@ -116,10 +119,9 @@ fun BillItem(
     }
 }
 
-
-//@Preview(showBackground = true)
 @Composable
 fun PromoCodeTextField(
+    viewModel: CartViewModel,
     modifier: Modifier = Modifier,
     hint: String = "",
     onSearch: (String) -> Unit = {}
@@ -127,12 +129,10 @@ fun PromoCodeTextField(
     var text by remember {
         mutableStateOf("")
     }
-    var isHintDisplayed by remember {
-        mutableStateOf(hint != "")
-    }
-
+//    var isHintDisplayed by remember {
+//        mutableStateOf(hint != "")
+//    }
     Box(modifier = modifier) {
-        
         BasicTextField(
             value = text,
             onValueChange = {
@@ -144,24 +144,49 @@ fun PromoCodeTextField(
             textStyle = TextStyle(color = Color.Black),
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(5.dp, RoundedCornerShape(10.dp))
+                .shadow(2.dp, RoundedCornerShape(10.dp))
                 .background(Color.White, RoundedCornerShape(10.dp))
-                .padding(horizontal = 20.dp, vertical = 12.dp)
+                .padding(vertical = 25.dp, horizontal = 10.dp)
                 .onFocusChanged {
 //                    isHintDisplayed = it != FocusStateImpl.Active && text.isNotEmpty()
                 }
-        ){
-            Row(horizontalArrangement = Arrangement.End,modifier = Modifier.fillMaxWidth()) {
-                BlackButton(modifier=Modifier,text = "Apply", horiantalPadding = 12.dp, verticallPadding = 2.dp)
-            }
-        }
-        if(isHintDisplayed) {
-            Text(
-                text = hint,
-                color = Color.LightGray,
-                modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
-            )
-        }
+        )
+        promobutton(text, viewModel)
+//        if(isHintDisplayed) {
+//            Text(
+//                text = hint,
+//                color = Color.LightGray,
+//                modifier = Modifier
+//                    .padding(horizontal = 20.dp,
+//                        vertical = 12.dp)
+//            )
+//        }
     }
+}
+
+@Composable
+fun promobutton(
+    text:String,
+    viewModel: CartViewModel
+){
+
+        Row(horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Transparent)
+                .padding(top = 10.dp, end = 10.dp)) {
+            CostumeButton(color = Color.Black,
+                modifier=Modifier,
+                text = "Apply",
+                horiantalPadding = 12.dp,
+                verticallPadding = 2.dp,
+                onClickListner = {
+                    if (text =="PROMOCODE"){
+                        viewModel.PromoCodeValidation.value = true
+                    }
+                })
+        }
+
+
+
 }

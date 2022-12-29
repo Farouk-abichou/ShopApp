@@ -1,4 +1,4 @@
-package com.example.shopapp.model
+package com.example.shopapp.model.userModels
 
 data class User(
     val id:Int,
@@ -21,9 +21,9 @@ data class adress(
     val street:String,
     val number:Int,
     val zipcode:String,
-    val geolocation:AdressGeolocation,
+    val geolocation: AdressGeolocation,
 
-)
+    )
 data class AdressGeolocation(
     val lat:String,
     val long:String,

@@ -49,7 +49,7 @@ fun ProductBox(
             Text(text = details)
             Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "$$price")
-                CircleButton(source=R.drawable.ic_baseline_add_24,Color.White)
+                CircleButton(modifier = Modifier, source=R.drawable.ic_baseline_add_24,Color.White)
             }
         }
     }

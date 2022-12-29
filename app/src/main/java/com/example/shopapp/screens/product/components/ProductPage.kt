@@ -1,9 +1,7 @@
 package com.example.shopapp.screens.product.components
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -28,6 +26,7 @@ import com.example.shopapp.Screens
 import com.example.shopapp.screens.home.components.CanImage
 import com.example.shopapp.screens.product.ProductViewModel
 import com.example.shopapp.util.AppColors
+import me.saket.swipe.SwipeableActionsBox
 import kotlin.math.roundToInt
 
 
@@ -38,6 +37,10 @@ fun ProductContent(
     viewModel: ProductViewModel
 ){
     val product=viewModel.PrductById.value
+
+
+
+
     Box(
         modifier = Modifier
             .background(AppColors.mBackgroundColor)
@@ -45,8 +48,8 @@ fun ProductContent(
     ) {
         TopAppBar(
             Modifier
-                .height(120.dp)
-                .padding(top = 20.dp),
+                .height(130.dp)
+                .padding(horizontal = 10.dp),
             backgroundColor = Color.Transparent,
             elevation = 0.dp,
         ) {
@@ -71,8 +74,8 @@ fun ProductContent(
 
 
                     Icon(
-                        painter = painterResource(R.drawable.ic_baseline_cruelty_free_24),
-                        contentDescription = "Cute Bunny",
+                        painter = painterResource(R.drawable.ic_baseline_shopping_cart_24),
+                        contentDescription = "Cart",
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                             .clickable {
@@ -83,17 +86,18 @@ fun ProductContent(
             }
         }
         Column(verticalArrangement = Arrangement.Center,modifier = Modifier.fillMaxSize()) {
-            CanImage(modifier = Modifier, image = R.drawable.drink_can, width = 400.dp, height =500.dp)
+            CanImage(modifier = Modifier, image = R.drawable.ic_baseline_add_24, width = 400.dp, height =500.dp)
             Spacer(modifier = Modifier.height(100.dp))
         }
 
-        Column(verticalArrangement = Arrangement.Bottom,modifier = Modifier.fillMaxSize()) {
-
+        Column(verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier.fillMaxSize())
+        {
             BottomProductCard(navController,modifier = Modifier.fillMaxSize(),
-                productName = product[0].title,
-                productDetails = product[0].category,
-                productReview = product[0].rating.rate.toString(),
-                productPrice = product[0].price
+                productName = product.title,
+                productDetails = product.category,
+                productReview = product.rating.toString(),
+                productPrice = product.price
             )
         }
     }
@@ -112,13 +116,12 @@ fun BottomProductCard(
     val quantity: MutableState<Int> = remember {
         mutableStateOf(1)
     }
-
-
-
     val finalQuantity: Double =(quantity.value * productPrice * 100.0).roundToInt() / 100.0
 
     Card(modifier = Modifier
-        .height(200.dp),
+        .height(200.dp)
+        .verticalScroll(rememberScrollState()
+        ),
         shape = RoundedCornerShape(
         topStart = 40.dp,
         topEnd = 40.dp,

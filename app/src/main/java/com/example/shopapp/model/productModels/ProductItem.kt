@@ -1,4 +1,4 @@
-package com.example.shopapp.model
+package com.example.shopapp.model.productModels
 
 
 

@@ -104,4 +104,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
+    //swipe
+    implementation "me.saket.swipe:swipe:1.0.0"
+
 }

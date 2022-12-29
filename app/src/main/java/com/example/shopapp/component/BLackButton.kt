@@ -16,19 +16,20 @@ import androidx.compose.ui.unit.sp
 import com.example.shopapp.R
 
 @Composable
-fun BlackButton(
+fun CostumeButton(
     modifier: Modifier,
+    color: Color,
     horiantalPadding:Dp,
     verticallPadding:Dp,
     text:String,
-    cornerSize: Dp =22.dp
+    cornerSize: Dp =22.dp,
+    onClickListner:()->Unit
 ){
-    Button(onClick = {
-        
-    },
+    Button(onClick = { onClickListner() }
+    ,
         modifier = Modifier,
         shape = RoundedCornerShape(cornerSize),
-        colors = ButtonDefaults.buttonColors(Color.Black),
+        colors = ButtonDefaults.buttonColors(color),
     ){
         Text(text = text,Modifier.padding(horiantalPadding,verticallPadding), color = Color.White, fontSize = 18.sp, fontFamily = FontFamily( Font(
             R.font.bergentext_regular)))
