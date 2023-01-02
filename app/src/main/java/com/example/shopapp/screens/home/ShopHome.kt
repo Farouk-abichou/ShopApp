@@ -2,10 +2,7 @@ package com.example.shopapp.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,9 +25,9 @@ fun ShopHome(navController: NavController,viewModel: ShopHomeViewModel = hiltVie
         TopAppBar(navController,Modifier.padding(horizontal = 10.dp))
         Column(modifier = Modifier){
             Column(modifier =Modifier.padding(horizontal = 10.dp)) {
-                ShopHomePage(Modifier,navController,viewModel)
+                ShopHomePage(viewModel)
             }
-            ProductsGrid(modifier = Modifier,viewModel,navController)
+            ProductsGrid(viewModel,navController)
         }
 
     }

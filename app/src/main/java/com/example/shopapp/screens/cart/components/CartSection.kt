@@ -20,11 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.shopapp.R
 import com.example.shopapp.component.CostumeButton
 import com.example.shopapp.screens.cart.CartViewModel
-import com.example.shopapp.screens.home.components.ProductBox
 import com.example.shopapp.util.AppColors
 import kotlin.math.roundToInt
 
@@ -33,7 +30,6 @@ import kotlin.math.roundToInt
 
 @Composable
 fun CartSection(
-    navController: NavController,
     viewModel: CartViewModel
 ){
     Column(
@@ -58,10 +54,10 @@ fun CartSection(
 }
 
 @Composable
-fun CartProducts(viewModel: CartViewModel,navController:NavController) {
+fun CartProducts(viewModel: CartViewModel) {
     val productToBuy = viewModel.getCartItems()?.toMutableList() //Important!
 
-
+    val product =viewModel.getAllProducts()?.toMutableList()
 
 
     LazyColumn(modifier = Modifier.height(300.dp), content = {
@@ -70,20 +66,24 @@ fun CartProducts(viewModel: CartViewModel,navController:NavController) {
                 items(productToBuy.size) { i ->
                     val productIndex = remember { mutableStateOf(i) }
 
-                    val productData = try {
+                    val cartProductData = try {
                         productToBuy.get(productIndex.value)
                     } catch (ex: Exception) { null }
 
-                    if (productData != null) {
-                        ProductToBuy(viewModel =viewModel, title = productData.products[1].quantity.toString(),
-                            details =productData.products.toString(), Price = productData.userId.toDouble() )
+                    val productData = try {
+                        product?.get(productIndex.value)
+                    } catch (ex: Exception) { null }
+
+
+
+                    if (cartProductData != null && productData != null) {
+                        ProductToBuy(viewModel =viewModel, title = productData.title,
+                            details =productData.category, Price = productData.price.toDouble(),image =productData.image )
                     }
                 }
             }
         }
     })
-
-
 }
 
 @Composable
@@ -140,10 +140,9 @@ fun BillItem(
 }
 
 @Composable
-fun PromoCodeTextField(
+fun     PromoCodeTextField(
     viewModel: CartViewModel,
     modifier: Modifier = Modifier,
-    hint: String = "",
     onSearch: (String) -> Unit = {}
 ) {
     var text by remember {
@@ -171,7 +170,7 @@ fun PromoCodeTextField(
 //                    isHintDisplayed = it != FocusStateImpl.Active && text.isNotEmpty()
                 }
         )
-        promobutton(text, viewModel)
+        PromoButton(text, viewModel)
 //        if(isHintDisplayed) {
 //            Text(
 //                text = hint,
@@ -185,18 +184,18 @@ fun PromoCodeTextField(
 }
 
 @Composable
-fun promobutton(
+fun PromoButton(
     text:String,
     viewModel: CartViewModel
 ){
-
         Row(horizontalArrangement = Arrangement.End,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.Transparent)
                 .padding(top = 10.dp, end = 10.dp)) {
-            CostumeButton(color = Color.Black,
-                modifier=Modifier,
+            CostumeButton(
+                modifier = Modifier,
+                color = Color.Black,
                 text = "Apply",
                 horiantalPadding = 12.dp,
                 verticallPadding = 2.dp,
@@ -206,7 +205,4 @@ fun promobutton(
                     }
                 })
         }
-
-
-
 }

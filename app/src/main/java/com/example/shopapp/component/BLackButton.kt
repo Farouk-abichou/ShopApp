@@ -25,14 +25,17 @@ fun CostumeButton(
     cornerSize: Dp =22.dp,
     onClickListner:()->Unit
 ){
-    Button(onClick = { onClickListner() }
-    ,
-        modifier = Modifier,
+    Button(onClick = { onClickListner() },
+        modifier = modifier,
         shape = RoundedCornerShape(cornerSize),
         colors = ButtonDefaults.buttonColors(color),
     ){
-        Text(text = text,Modifier.padding(horiantalPadding,verticallPadding), color = Color.White, fontSize = 18.sp, fontFamily = FontFamily( Font(
-            R.font.bergentext_regular)))
+        Text(text = text,
+            Modifier.padding(horiantalPadding
+                ,verticallPadding),
+            color = Color.White,
+            fontSize = 18.sp,
+            fontFamily = FontFamily( Font(R.font.bergentext_regular)))
     }
 
 }

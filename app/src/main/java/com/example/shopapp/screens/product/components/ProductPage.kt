@@ -1,6 +1,5 @@
 package com.example.shopapp.screens.product.components
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,10 +22,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.shopapp.R
 import com.example.shopapp.Screens
-import com.example.shopapp.screens.home.components.CanImage
+import com.example.shopapp.screens.home.components.ProductImage
 import com.example.shopapp.screens.product.ProductViewModel
 import com.example.shopapp.util.AppColors
-import me.saket.swipe.SwipeableActionsBox
 import kotlin.math.roundToInt
 
 
@@ -37,9 +35,6 @@ fun ProductContent(
     viewModel: ProductViewModel
 ){
     val product=viewModel.PrductById.value
-
-
-
 
     Box(
         modifier = Modifier
@@ -67,7 +62,6 @@ fun ProductContent(
                             .align(Alignment.CenterVertically)
                             .clickable {
                                 navController.popBackStack()
-//                                Log.d("tag1","${viewModel.CartItems.value}")
                             }
                     )
 
@@ -79,14 +73,14 @@ fun ProductContent(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                             .clickable {
-//                            navController.popBackStack()
+                            navController.navigate(Screens.Cart.route)
                             },
                     )
                 }
             }
         }
-        Column(verticalArrangement = Arrangement.Center,modifier = Modifier.fillMaxSize()) {
-            CanImage(modifier = Modifier, image = R.drawable.ic_baseline_add_24, width = 400.dp, height =500.dp)
+        Column(horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center,modifier = Modifier.fillMaxSize()) {
+            ProductImage(modifier = Modifier, image = product.image, width = 300.dp, height =500.dp)
             Spacer(modifier = Modifier.height(100.dp))
         }
 
@@ -140,7 +134,7 @@ fun BottomProductCard(
                    bottom = 30.dp
                )) {
 
-           Column(modifier = Modifier) {
+           Column(modifier = modifier) {
                Row(horizontalArrangement = Arrangement.SpaceBetween,
                    modifier = Modifier.fillMaxWidth()) {
                    Text(text = productName,
@@ -201,10 +195,10 @@ fun BottomProductCard(
     }
 }
 
-@Composable
-fun StarsReview() {
-    TODO("Not yet implemented")
-}
+//@Composable
+//fun StarsReview() {
+//    TODO("Not yet implemented")
+//}
 
 @Composable
 fun CardButton(

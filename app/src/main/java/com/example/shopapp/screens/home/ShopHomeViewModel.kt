@@ -19,18 +19,18 @@ class ShopHomeViewModel @Inject constructor(private val repository: ProductRepos
     : ViewModel() {
     val productData: MutableState<DataOrException<ArrayList<ProductItem>,
             Boolean, Exception>> = mutableStateOf(
-        DataOrException(null,false,Exception("")) )
+        DataOrException(null,true,Exception("")) )
 
 
-    val categories:MutableState<Categories> = mutableStateOf( Categories())
+
+    var categories =  Categories()
     var categorySelected:MutableState<String> = mutableStateOf( "")
 
+    var showCategories= mutableStateOf(false)
 
     init {
         getProducts()
         getAllCategories()
-
-
     }
 
     fun getProducts(): ArrayList<ProductItem>? {
@@ -45,9 +45,11 @@ class ShopHomeViewModel @Inject constructor(private val repository: ProductRepos
 
     fun getAllProducts():ArrayList<ProductItem>?{
         viewModelScope.launch {
-
+            productData.value.loading =true
             productData.value =repository.getAllProducts()
-
+            if (!productData.value.data.isNullOrEmpty()){
+                productData.value.loading =false
+            }
         }
         return productData.value.data
     }
@@ -62,7 +64,7 @@ class ShopHomeViewModel @Inject constructor(private val repository: ProductRepos
 
     private fun getAllCategories(){
         viewModelScope.launch {
-            categories.value = repository.getAllCategories()
+            categories = repository.getAllCategories()
         }
     }
 
