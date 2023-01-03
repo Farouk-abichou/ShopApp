@@ -1,13 +1,10 @@
 package com.example.shopapp.repository
 
 
-import android.util.Log
 import com.example.shopapp.data.DataOrException
-import com.example.shopapp.model.cartModels.CartItem
 import com.example.shopapp.model.productModels.Categories
 import com.example.shopapp.model.productModels.ProductItem
 import com.example.shopapp.model.productModels.Rating
-import com.example.shopapp.model.userModels.User
 import com.example.shopapp.network.ProductApi
 import javax.inject.Inject
 
@@ -51,21 +48,21 @@ class ProductRepository @Inject constructor(
     }
 
 
-    private val cartItemsDataOrException
-            = DataOrException<ArrayList<CartItem>,
-            Boolean,
-            Exception>()
+//    private val cartItemsDataOrException
+//            = DataOrException<ArrayList<CartItem>,
+//            Boolean,
+//            Exception>()
+//
 
-
-    suspend fun getCartProducts():DataOrException<ArrayList<CartItem>,Boolean,java.lang.Exception>{
-        try {
-            cartItemsDataOrException.data = api.getAllCartItems()
-
-        }catch (exception:Exception){
-            cartItemsDataOrException.e = exception
-        }
-        return cartItemsDataOrException
-    }
+//    suspend fun getCartProducts():DataOrException<ArrayList<CartItem>,Boolean,java.lang.Exception>{
+//        try {
+//            cartItemsDataOrException.data = api.getAllCartItems()
+//
+//        }catch (exception:Exception){
+//            cartItemsDataOrException.e = exception
+//        }
+//        return cartItemsDataOrException
+//    }
 
 
 
@@ -115,10 +112,10 @@ class ProductRepository @Inject constructor(
 
 
 
-    private val userDataOrException
-            = DataOrException<ArrayList<User>,
-            Boolean,
-            Exception>()
+//    private val userDataOrException
+//            = DataOrException<ArrayList<User>,
+//            Boolean,
+//            Exception>()
 
 //    suspend fun getAllUsers():DataOrException<ArrayList<User>,Boolean,java.lang.Exception>{
 //        try {
@@ -132,11 +129,11 @@ class ProductRepository @Inject constructor(
 //        }
 //        return userDataOrException
 //    }
-
-    private val cartDataOrException
-            = DataOrException<ArrayList<ProductItem>,
-            Boolean,
-            Exception>()
+//
+//    private val cartDataOrException
+//            = DataOrException<ArrayList<ProductItem>,
+//            Boolean,
+//            Exception>()
 //
 //    suspend fun getAllCartProducts():DataOrException<ArrayList<ProductItem>,Boolean,java.lang.Exception>{
 //        try {

@@ -1,4 +1,4 @@
-package com.example.shopapp.component
+package com.example.shopapp.z_component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape

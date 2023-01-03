@@ -1,7 +1,6 @@
 package com.example.shopapp
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,11 +19,18 @@ fun SetUpNavGraph(
         navController = navController,
         startDestination = Screens.Home.route)
     {
+//        composable(
+//            route = Screens.Login.route
+//        ){
+//            Login(navController)
+//        }
+
         composable(
             route = Screens.Home.route
         ){
             ShopHome(navController)
         }
+
         composable(
             route = Screens.Product.route + "/{Id}",
             arguments = listOf(

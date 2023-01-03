@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopapp.data.DataOrException
+import com.example.shopapp.model.CartProduct
 import com.example.shopapp.model.productModels.Categories
 import com.example.shopapp.model.productModels.ProductItem
+import com.example.shopapp.repository.CartRepository
 import com.example.shopapp.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,11 +17,16 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ShopHomeViewModel @Inject constructor(private val repository: ProductRepository)
+class ShopHomeViewModel @Inject constructor(private val repository: ProductRepository,private val repository2: CartRepository)
     : ViewModel() {
     val productData: MutableState<DataOrException<ArrayList<ProductItem>,
             Boolean, Exception>> = mutableStateOf(
         DataOrException(null,true,Exception("")) )
+
+//    val cartProductData: MutableState<DataOrException<ArrayList<ProductItem>,
+//            Boolean, Exception>> = mutableStateOf(
+//        DataOrException(null,true,Exception("")) )
+
 
 
 
@@ -65,6 +72,26 @@ class ShopHomeViewModel @Inject constructor(private val repository: ProductRepos
     private fun getAllCategories(){
         viewModelScope.launch {
             categories = repository.getAllCategories()
+        }
+    }
+
+    fun addCartProduct(id:Int,
+                       title:String,
+                       price:Float,
+                       category: String,
+                       image:String,
+                       ){
+        viewModelScope.launch {
+            repository2.addCartProduct(
+                CartProduct(
+                    id = id,
+                    title = title,
+                    price = price,
+                    category = category,
+                    image = image,
+                    number = 1
+                )
+            )
         }
     }
 

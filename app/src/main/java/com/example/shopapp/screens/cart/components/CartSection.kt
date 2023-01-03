@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.shopapp.component.CostumeButton
+import com.example.shopapp.z_component.CostumeButton
 import com.example.shopapp.screens.cart.CartViewModel
 import com.example.shopapp.util.AppColors
 import kotlin.math.roundToInt
@@ -44,9 +44,9 @@ fun CartSection(
             Spacer(modifier = Modifier.height(20.dp))
 
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-                TotalBill(viewModel,viewModel.subTotal.value,4.99,0.00)
+                TotalBill(viewModel,viewModel.getCartProductsFinalPrice(),4.99,0.00)
                 Spacer(modifier = Modifier.height(20.dp))
-                CostumeButton(color = Color.Black, modifier = Modifier, text = "Procced To Checkout", horiantalPadding = 40.dp, verticallPadding = 10.dp, onClickListner = {})
+                CostumeButton(color = Color.Black, modifier = Modifier, text = "Proceed To Checkout", horiantalPadding = 40.dp, verticallPadding = 10.dp, onClickListner = {})
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -55,33 +55,32 @@ fun CartSection(
 
 @Composable
 fun CartProducts(viewModel: CartViewModel) {
-    val productToBuy = viewModel.getCartItems()?.toMutableList() //Important!
+    val productToBuy = viewModel.getCartProducts()?.toMutableList() //Important!
 
-    val product =viewModel.getAllProducts()?.toMutableList()
+//    val product =viewModel.getAllProducts()?.toMutableList()
 
 
     LazyColumn(modifier = Modifier.height(300.dp), content = {
-        viewModel.getCartItems()?.let {
-            if (productToBuy != null) {
-                items(productToBuy.size) { i ->
-                    val productIndex = remember { mutableStateOf(i) }
+        if(productToBuy != null){
+            items(productToBuy.size) { i ->
+                val productIndex = remember { mutableStateOf(i) }
 
-                    val cartProductData = try {
-                        productToBuy.get(productIndex.value)
-                    } catch (ex: Exception) { null }
+                val cartProductData = try {
+                    productToBuy[productIndex.value]
+                } catch (ex: Exception) { null }
 
-                    val productData = try {
-                        product?.get(productIndex.value)
-                    } catch (ex: Exception) { null }
-
-
-
-                    if (cartProductData != null && productData != null) {
-                        ProductToBuy(viewModel =viewModel, title = productData.title,
-                            details =productData.category, Price = productData.price.toDouble(),image =productData.image )
-                    }
+                if (cartProductData != null) {
+                        ProductToBuy(
+                            viewModel =viewModel,
+                            id=cartProductData.id,
+                            title = cartProductData.title,
+                            details =cartProductData.category,
+                            Price = cartProductData.price.toDouble(),
+                            image =cartProductData.image )
+//                viewModel.subTotal.value+=cartProductData.price.toDouble()
                 }
             }
+
         }
     })
 }
@@ -96,9 +95,9 @@ fun TotalBill(
 
     val bogTotal: Double =((subTotal+shipping-discount) * 100.0).roundToInt() / 100.0
 
-    BillItem(billItemName = "Subtotal",viewModel.subTotal.value)
+    BillItem(billItemName = "Subtotal",viewModel.getCartProductsFinalPrice())
     BillItem(billItemName = "Shipping",shipping)
-    if (viewModel.PromoCodeValidation.value){
+    if (viewModel.promoCodeValidation.value){
         BillItem(billItemName = "Discount",-discount)
     }
     BillItem(billItemName = "bog Total",bogTotal)
@@ -201,7 +200,7 @@ fun PromoButton(
                 verticallPadding = 2.dp,
                 onClickListner = {
                     if (text =="PROMOCODE"){
-                        viewModel.PromoCodeValidation.value = true
+                        viewModel.promoCodeValidation.value = true
                     }
                 })
         }

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.shopapp.R
 import com.example.shopapp.Screens
-import com.example.shopapp.component.CostumeButton
+import com.example.shopapp.z_component.CostumeButton
 import com.example.shopapp.screens.home.ShopHomeViewModel
 import com.example.shopapp.util.AppColors
 
@@ -129,11 +129,12 @@ fun ProductsGrid(
 
                         if (productData != null) {
                             ProductBox(
+                                viewModel,
                                 navController,
                                 id = productData.id,
                                 image = productData.image,
                                 title = productData.title,
-                                details = productData.category,
+                                category = productData.category,
                                 price = productData.price,
                             )
                             Spacer(modifier = Modifier.height(25.dp))

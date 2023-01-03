@@ -1,5 +1,9 @@
 package com.example.shopapp.di
 
+import android.app.Application
+import androidx.room.Room
+import com.example.shopapp.data.CartDao
+import com.example.shopapp.data.CartDatabase
 import com.example.shopapp.network.ProductApi
 import com.example.shopapp.repository.ProductRepository
 import com.example.shopapp.util.Constants
@@ -31,4 +35,24 @@ object AppModule {
             .build()
             .create(ProductApi::class.java)
     }
+
+    //For Cart Database
+    @Provides
+    @Singleton
+    fun provideCartDatebase(app: Application): CartDatabase {
+        return Room.databaseBuilder(
+            app,
+            CartDatabase::class.java,
+            CartDatabase.DATABASE_NAME
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+    @Provides
+    @Singleton
+    fun provideNoteDao(db : CartDatabase): CartDao {
+        return db.cartDao
+    }
 }
+
+

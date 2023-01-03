@@ -16,16 +16,18 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.shopapp.R
 import com.example.shopapp.Screens
+import com.example.shopapp.screens.home.ShopHomeViewModel
 
 
 //@Preview
 @Composable
 fun ProductBox(
+    viewModel: ShopHomeViewModel,
     navController: NavController,
     id:Int,
     image:String,
     title:String,
-    details:String,
+    category:String,
     price:Float,
 ){
     Box(modifier = Modifier
@@ -45,10 +47,20 @@ fun ProductBox(
                 ProductImage(Modifier.fillMaxWidth(), image = image, width = 200.dp, height = 200.dp)
             }
             Text(text = title, fontWeight = FontWeight.Bold)
-            Text(text = details)
+            Text(text = category)
             Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "$$price")
-                CircleButton(modifier = Modifier, source=R.drawable.ic_baseline_add_24,Color.White)
+                CircleButton(modifier = Modifier.clickable {
+                    viewModel.addCartProduct(id = id,
+                        title=title,
+                        price = price,
+                        category = category,
+                        image = image,
+                        )
+                },
+                    source=R.drawable.ic_baseline_add_24,
+                    Color.White,
+                )
             }
         }
     }
